@@ -1,4 +1,4 @@
-A repositiry dedicated towards learning API development with python
+A repositiry dedicated towards learning API development with python.
 
 
 Following The the tutorial 'Python API Development - Comprehensive Course for Beginners' by  'Sanjeev Thiyagarajan'
