@@ -1,0 +1,13 @@
+We are using a relation database management system called PostgresSQL or ust Postgres
+
+a relational database is made of many tables that are linked
+Need to specify data type in table column ([Int, decimal, precision], [Varchar, text], boolean, array)
+
+
+A table must have a primary key to uniquely identify rows.
+
+You can apply constraints to columns...
+a UNIQUE constraint means all values in a column must be unique
+the NOT NULL constraint means the column cannot be left blank (by default it can)
+
+the serial datatype in postgres automatically gives each row an integer value.

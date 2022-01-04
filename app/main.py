@@ -8,6 +8,9 @@ from starlette.status import HTTP_404_NOT_FOUND
 
 app = FastAPI()
 
+# you can convert any pydantic model to a dictionary using .dict()
+# (BaseModel is a pydantic model (look at imports))
+
 
 class Post(BaseModel):
     """define a class for a post schema. inhertis from BaseModel class which we import"""
@@ -17,7 +20,7 @@ class Post(BaseModel):
     published: bool = True
     rating: Optional[int] = None
 
-    # decorator (the path in the brackets denotes the path in the URL we need to go to to access this endpoint)
+# decorator (the path in the brackets denotes the path in the URL we need to go to to access this endpoint)
 
 
 my_posts = [{"title": "title of post 1", "content": "content of post1", "id": 1},
@@ -38,6 +41,7 @@ def get_posts():
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
 def create_posts(post: Post):
     post_dict = post.dict()
+    print(post_dict)
     post_dict["id"] = randrange(0, 1000000)
     my_posts.append(post_dict)
     return {"data": post_dict}
@@ -66,6 +70,30 @@ def delete_post(id: int):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f'No post found with id {id}')
 
+
+@app.put("/posts/{id}")
+def update_post(id: int, post: Post):
+    index = find_index_post(id)
+
+    if index == None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f'No post found with id {id}')
+
+    post_dict = post.dict()
+    post_dict["id"] = id
+    my_posts[index] = post_dict
+    print(post_dict)
+    return {"data": post_dict}
+
+
+#######################
+########################
+########################
+#########################
+#########################
+########################
+#########################
+########################
     ## Other Functions ##
 
 
