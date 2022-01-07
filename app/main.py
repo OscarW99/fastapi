@@ -3,13 +3,21 @@ from fastapi import FastAPI, Response, status, HTTPException
 from fastapi.params import Body
 from pydantic import BaseModel
 from random import randrange
-
 from starlette.status import HTTP_404_NOT_FOUND
+import psycopg2
+from psycopg2.extras import RealDictCursor
+import time
 
+
+# use 'python -m uvicorn app.main:app --reload' in terminal to start
+
+# initiate api
 app = FastAPI()
 
 # you can convert any pydantic model to a dictionary using .dict()
 # (BaseModel is a pydantic model (look at imports))
+
+# set up model for which a post must adhere to
 
 
 class Post(BaseModel):
@@ -18,7 +26,25 @@ class Post(BaseModel):
     title: str
     content: str
     published: bool = True
-    rating: Optional[int] = None
+
+
+###############################
+##### connect to database #####
+###############################
+while True:
+    try:
+        # Connect to your postgres DB
+        conn = psycopg2.connect(host='localhost', database='fastapi',
+                                user='postgres', password='postgres', cursor_factory=RealDictCursor)
+        # Open a cursor to perform database operations
+        cursor = conn.cursor()
+        print("Database connection was successful")
+        break
+    except Exception as error:
+        print("Connecting to database failed")
+        print("Error: ", error)
+        time.sleep(5)
+
 
 # decorator (the path in the brackets denotes the path in the URL we need to go to to access this endpoint)
 
