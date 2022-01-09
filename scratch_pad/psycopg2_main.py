@@ -7,12 +7,6 @@ from starlette.status import HTTP_404_NOT_FOUND
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import time
-from sqlalchemy.orm import Session
-from . import models
-from .database import engine, get_db
-
-# create the database if it doesn't already exist
-models.Base.metadata.create_all(bind=engine)
 
 
 #! python -m uvicorn app.main:app --reload
@@ -23,6 +17,8 @@ app = FastAPI()
 
 # you can convert any pydantic model to a dictionary using .dict()
 # (BaseModel is a pydantic model (look at imports))
+
+# set up model for which a post must adhere to
 
 
 class Post(BaseModel):
@@ -61,35 +57,32 @@ def root():
     return {"message": "My first API"}
 
 
-# ! TEST ROUTE
-@app.get("/sqlalchemy")
-def test_posts(db: Session = Depends(get_db)):
-    posts = db.query(models.Post).all()
-    return {"data": posts}
-
-
 # * GET ALL POSTS
 @app.get("/posts")
-def get_posts(db: Session = Depends(get_db)):
-    posts = db.query(models.Post).all()
+def get_posts():
+    cursor.execute("""SELECT * FROM posts;""")
+    posts = cursor.fetchall()
     return {"Data": posts}
 
 
 # * CREATE A POST
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
-def create_posts(post: Post, db: Session = Depends(get_db)):
-    new_post = models.Post(**post.dict())
-    db.add(new_post)
-    db.commit()
-    db.refresh(new_post)
+def create_posts(post: Post):
+    # the reason for doing this instead of an fstring is to avoid sql injections
+    cursor.execute("INSERT INTO posts (title, content, published) VALUES(%s, %s, %s) RETURNING *;",
+                   (post.title, post.content, post.published))
+    new_post = cursor.fetchone()
+    conn.commit()
     return {"data": new_post}
 # title string, content string, catagory
 
 
 # * GET A POST BY ID
 @app.get("/posts/{id}")
-def get_post(id: int, db: Session = Depends(get_db)):
-    post = db.query(models.Post).filter(models.Post.id == id).first()
+def get_post(id: int):
+    # cursor.execute expects a string as first argument and tuple as second argument (hence comma next to id).
+    cursor.execute("SELECT * FROM posts WHERE id = %s;", (id,))
+    post = cursor.fetchone()
     if not post:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f'post with id {id} was not found!')
@@ -100,7 +93,7 @@ def get_post(id: int, db: Session = Depends(get_db)):
 
 # * DELETE A POST
 @app.delete("/posts/{id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_post(id: int, db: Session = Depends(get_db)):
+def delete_post(id: int):
     cursor.execute("DELETE FROM posts WHERE id = %s RETURNING *;", (id,))
     deleted_post = cursor.fetchone()
     conn.commit()
@@ -113,7 +106,7 @@ def delete_post(id: int, db: Session = Depends(get_db)):
 
 # * UPDATE A POST
 @app.put("/posts/{id}")
-def update_post(id: int, post: Post, db: Session = Depends(get_db)):
+def update_post(id: int, post: Post):
     cursor.execute(
         "UPDATE posts SET title = %s, content = %s, published = %s WHERE id = %s RETURNING *;", (post.title, post.content, post.published, id))
     updated_post = cursor.fetchone()
@@ -124,15 +117,3 @@ def update_post(id: int, post: Post, db: Session = Depends(get_db)):
                             detail=f'No post found with id {id}')
 
     return {"data": updated_post}
-
-
-#######################
-########################
-########################
-#########################
-#########################
-########################
-
-# At first we hard coded data into thie python file in a list.
-# Then we stored data in postgres and accessed it using psycopg2 by writing SQL commands directly into the python code.
-# Now we are using an ORM model, sqlalchemy. We still have data in postgres, but instaed on writing SQL commands directly into our main pyhton file, we can now use python to perform SQL operations. The ORM model will recieve our python commands and convert them into SQL commands (and will use psycopg2 iteself to communicate with postgres). With this method, we create database.py and models.py scripts.

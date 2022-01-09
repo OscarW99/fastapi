@@ -1,0 +1,18 @@
+https://fastapi.tiangolo.com/tutorial/sql-databases/ has a great walk through of using an ORM model. Read for confusion.
+
+Using the ORM model we need to create many files along with main.py. The file structure is as follows:
+.
+└── sql_app
+    ├── __init__.py
+    ├── crud.py
+    ├── database.py
+    ├── main.py
+    ├── models.py
+    └── schemas.py
+
+"ORM": an "object-relational mapping" library.
+An ORM has tools to convert ("map") between objects in code and database tables ("relations").
+
+With an ORM, you normally create a class that represents a table in a SQL database, each attribute of the class represents a column, with a name and a type.
+
+# To make changes to the table constraints/ rules, you cant run from python as the ORM would search for the table and only create it if it doesn't exist. So if it already exists the ORM would ignore the command and any changes would not be made. You can use a software like alembic to solve this. Alternatively deleting the tabe first will also work.

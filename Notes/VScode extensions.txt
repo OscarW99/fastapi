@@ -1,0 +1,7 @@
+To change settings of a VScode extension...
+Just spent an hour trying to work this out so am making a note for future
+You go to settings and type in the extension. You then click 'edit in json'. 
+If the setting you need is not in the json dict then you need to add a new key value pair.
+This may be done by autocomplete when you type in the setting as the key (as string).
+If not, click on 'copy settings as json', paste this into a new file, this should have the setting you want.
+Make changes and then paste this back into the main json and save. Restart machine for changes to take effect. 
