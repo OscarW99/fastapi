@@ -101,29 +101,29 @@ def get_post(id: int, db: Session = Depends(get_db)):
 # * DELETE A POST
 @app.delete("/posts/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_post(id: int, db: Session = Depends(get_db)):
-    cursor.execute("DELETE FROM posts WHERE id = %s RETURNING *;", (id,))
-    deleted_post = cursor.fetchone()
-    conn.commit()
+    post = db.query(models.Post).filter(models.Post.id == id)
 
-    if deleted_post == None:
+    if post.first() == None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f'No post found with id {id}')
+    post.delete(synchronize_session=False)
+    db.commit()
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
 # * UPDATE A POST
 @app.put("/posts/{id}")
-def update_post(id: int, post: Post, db: Session = Depends(get_db)):
-    cursor.execute(
-        "UPDATE posts SET title = %s, content = %s, published = %s WHERE id = %s RETURNING *;", (post.title, post.content, post.published, id))
-    updated_post = cursor.fetchone()
-    conn.commit()
+def update_post(id: int, updated_post: Post, db: Session = Depends(get_db)):
 
-    if updated_post == None:
+    post_query = db.query(models.Post).filter(models.Post.id == id)
+    post = post_query.first()
+
+    if post == None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f'No post found with id {id}')
-
-    return {"data": updated_post}
+    post_query.update(updated_post.dict(), synchronize_session=False)
+    db.commit()
+    return {"data": post_query.first()}
 
 
 #######################
