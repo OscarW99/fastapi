@@ -8,7 +8,7 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 import time
 from sqlalchemy.orm import Session
-from . import models
+from . import models, schemas
 from .database import engine, get_db
 
 # create the database if it doesn't already exist
@@ -17,24 +17,14 @@ models.Base.metadata.create_all(bind=engine)
 
 #! python -m uvicorn app.main:app --reload
 
+
 # initiate api
 app = FastAPI()
 
 
-# you can convert any pydantic model to a dictionary using .dict()
-# (BaseModel is a pydantic model (look at imports))
-
-
-class Post(BaseModel):
-    """define a class for a post schema. inhertis from BaseModel class which we import"""
-    """We can set fields and their input requirement type"""
-    title: str
-    content: str
-    published: bool = True
-
-
 ###############################
 ##### connect to database #####
+# Can copy and paste for any project #
 ###############################
 while True:
     try:
@@ -77,7 +67,7 @@ def get_posts(db: Session = Depends(get_db)):
 
 # * CREATE A POST
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
-def create_posts(post: Post, db: Session = Depends(get_db)):
+def create_posts(post: schemas.Post, db: Session = Depends(get_db)):
     new_post = models.Post(**post.dict())
     db.add(new_post)
     db.commit()
@@ -113,7 +103,7 @@ def delete_post(id: int, db: Session = Depends(get_db)):
 
 # * UPDATE A POST
 @app.put("/posts/{id}")
-def update_post(id: int, updated_post: Post, db: Session = Depends(get_db)):
+def update_post(id: int, updated_post: schemas.Post, db: Session = Depends(get_db)):
 
     post_query = db.query(models.Post).filter(models.Post.id == id)
     post = post_query.first()

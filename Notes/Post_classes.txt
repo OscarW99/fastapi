@@ -1,0 +1,15 @@
+We use both pydantic and ORM models at the same time. We create a Post class using each and they are used for different things.
+
+
+1) a schema/pydantic model
+We sue this to create a Post class in .schemas.py
+ie we do: from pydantic import BaseModel... and Post inherits from BaseModel
+'Post(BaseModel)'
+We use this Post class in main.py in both create_post and update_post path operations as a parameter in the functions.
+The purpose of this pydantic model Post class is to define the structure of the request to be sent (and response - haven't covered this yet). -> So the post request will only go through if it has the fields in this Post class (and they are of the correct type).
+
+2) ORM/sqlalchemy model
+We define a Post class in .models.py
+we do this using a sqlalchemy baseclass
+The purpose of this ORM model Post class is for creating our database, querying our database and performing CRUD operations on our database.
+
