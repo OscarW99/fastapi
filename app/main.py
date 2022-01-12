@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 from fastapi import FastAPI, Response, status, HTTPException, Depends
 from fastapi.params import Body
 from pydantic import BaseModel
@@ -51,33 +51,27 @@ def root():
     return {"message": "My first API"}
 
 
-# ! TEST ROUTE
-@app.get("/sqlalchemy")
-def test_posts(db: Session = Depends(get_db)):
-    posts = db.query(models.Post).all()
-    return {"data": posts}
-
-
 # * GET ALL POSTS
-@app.get("/posts")
+@app.get("/posts", response_model=List[schemas.Post])
 def get_posts(db: Session = Depends(get_db)):
     posts = db.query(models.Post).all()
-    return {"Data": posts}
+    return posts
 
 
 # * CREATE A POST
-@app.post("/posts", status_code=status.HTTP_201_CREATED)
-def create_posts(post: schemas.Post, db: Session = Depends(get_db)):
+@app.post("/posts", status_code=status.HTTP_201_CREATED, response_model=schemas.Post)
+def create_posts(post: schemas.PostCreate, db: Session = Depends(get_db)):
     new_post = models.Post(**post.dict())
     db.add(new_post)
     db.commit()
     db.refresh(new_post)
-    return {"data": new_post}
+    # new_post is a sqlalchemy model, not a dict as expected by pydantic. We remedy this by adding orm_mode=True to our post reponse model in schemas.py.
+    return new_post
 # title string, content string, catagory
 
 
 # * GET A POST BY ID
-@app.get("/posts/{id}")
+@app.get("/posts/{id}", response_model=schemas.Post)
 def get_post(id: int, db: Session = Depends(get_db)):
     post = db.query(models.Post).filter(models.Post.id == id).first()
     if not post:
@@ -85,7 +79,7 @@ def get_post(id: int, db: Session = Depends(get_db)):
                             detail=f'post with id {id} was not found!')
         # # response and status are imported
     else:
-        return {"post_detail": post}
+        return post
 
 
 # * DELETE A POST
@@ -102,8 +96,8 @@ def delete_post(id: int, db: Session = Depends(get_db)):
 
 
 # * UPDATE A POST
-@app.put("/posts/{id}")
-def update_post(id: int, updated_post: schemas.Post, db: Session = Depends(get_db)):
+@app.put("/posts/{id}", response_model=schemas.Post)
+def update_post(id: int, updated_post: schemas.PostCreate, db: Session = Depends(get_db)):
 
     post_query = db.query(models.Post).filter(models.Post.id == id)
     post = post_query.first()
@@ -113,7 +107,17 @@ def update_post(id: int, updated_post: schemas.Post, db: Session = Depends(get_d
                             detail=f'No post found with id {id}')
     post_query.update(updated_post.dict(), synchronize_session=False)
     db.commit()
-    return {"data": post_query.first()}
+    return post_query.first()
+
+
+# * CREATE A NEW USER
+@app.post("/users", status_code=status.HTTP_201_CREATED, response_model=schemas.UserOut)
+def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+    new_user = models.User(**user.dict())
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return new_user
 
 
 #######################

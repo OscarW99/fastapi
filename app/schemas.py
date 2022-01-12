@@ -1,11 +1,37 @@
-from pydantic import BaseModel
+from datetime import datetime
+from pydantic import BaseModel, EmailStr
+# All pydantic models need to extend base model
 
 
-# you can convert any pydantic model to a dictionary using .dict()
-# (BaseModel is a pydantic model (look at imports))
-class Post(BaseModel):
-    """define a class for a post schema. inhertis from BaseModel class which we import"""
-    """We can set fields and their input requirement type"""
+class PostBase(BaseModel):
     title: str
     content: str
     published: bool = True
+
+
+class PostCreate(PostBase):
+    pass
+
+
+# response pydantic model for post
+class Post(PostBase):
+    id: int
+    created_at: datetime
+
+    class Config:
+        orm_mode = True
+
+
+class UserCreate(BaseModel):
+    email: EmailStr
+    password: str
+
+
+# response pydantic model for user
+class UserOut(BaseModel):
+    id: int
+    email: EmailStr
+    created_at: datetime
+
+    class Config:
+        orm_mode = True
