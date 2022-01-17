@@ -1,4 +1,5 @@
 from datetime import datetime
+import email
 from pydantic import BaseModel, EmailStr
 # All pydantic models need to extend base model
 
@@ -35,3 +36,9 @@ class UserOut(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+# models for logging in...
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str

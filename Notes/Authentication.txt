@@ -1,0 +1,31 @@
+To track if a user is logged in or not what we could do is store this information in the backend either in out database or API code. 
+Another thing we could do is use JWT Token Authentication whhich is stateless, meaning the info is stored on the client side (front end). 
+*Go to 6:32 in tutorial for presentation slides.
+
+How JWT token authentication works...
+- When the user logs-in, if the username/password are correct, a JWT token is created (think of it a string) and sent back to the user.
+- Any time the user makes a request (CRUD operation), the JWT token is sent as well in the header of the request. The API will validate the token and if correct, will send back th data.
+
+
+a JWT token is NOT encrypted.
+It made up of 3 parts:  1) header - containing type of token and hashing algo used
+                        2) payload - whatever you want to send in the request (no confidential data)
+                        3) A secret password for the API side only, so no users should know this.
+                        returns) A signiture - this is the the header, the payload and a secrete password combined.
+                        ...The signiture is used to validate the token
+                        I think the signiture is hashed using the algorithm stated in part 1 so that it cannot be base64 decoded.
+
+
+
+HTTP requeses are stateless meaning no information is remembered from any previous request. You need to provide all information every time, stating your identity and what inforation you need. Tokens are a way to negate this need to porvide id information every time by automatically verifying your identity. A JWT token is provided upon login so that you only have to provide usename and password once. On subsequet requests, only the JWT token is provided in the header of the request.
+
+So a JWT is not used for the origional authenitcation - as you cannot send sensitive information such as passwords in the JWT payload. The JWT is created on the server side after origional login.
+When the JWT is sent back to the user it can be stored in local storage or in cookies.
+
+HTTP request headers are key:value pairs. A JWT is sent in every HTTP request header in the below format:
+Key:value
+Authorization: Bearer JWT
+
+
+If someone gets hold of your JWT they may be able to impersonate you. OAuth can help stop this.
+Logging off will stop the JWT as it requires the user to be logged in.
