@@ -117,3 +117,8 @@ def update_post(id: int, post: Post):
                             detail=f'No post found with id {id}')
 
     return {"data": updated_post}
+
+
+# At first we hard coded data into thie python file in a list.
+# Then we stored data in postgres and accessed it using psycopg2 by writing SQL commands directly into the python code.
+# Now we are using an ORM model, sqlalchemy. We still have data in postgres, but instaed on writing SQL commands directly into our main pyhton file, we can now use python to perform SQL operations. The ORM model will recieve our python commands and convert them into SQL commands (and will use psycopg2 iteself to communicate with postgres). With this method, we create database.py and models.py scripts.
