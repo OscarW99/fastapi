@@ -1,7 +1,11 @@
+# Basically a file for putting all pydantic schemas
 from datetime import datetime
 import email
+from typing import Optional
 from pydantic import BaseModel, EmailStr
 # All pydantic models need to extend base model
+
+#############################################################
 
 
 class PostBase(BaseModel):
@@ -21,6 +25,8 @@ class Post(PostBase):
 
     class Config:
         orm_mode = True
+
+##############################################################
 
 
 class UserCreate(BaseModel):
@@ -42,3 +48,14 @@ class UserOut(BaseModel):
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
+
+##############################################################
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    id: Optional[str] = None
