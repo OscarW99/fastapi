@@ -7,28 +7,6 @@ from pydantic import BaseModel, EmailStr
 
 #############################################################
 
-
-class PostBase(BaseModel):
-    title: str
-    content: str
-    published: bool = True
-
-
-class PostCreate(PostBase):
-    pass
-
-
-# response pydantic model for post
-class Post(PostBase):
-    id: int
-    created_at: datetime
-
-    class Config:
-        orm_mode = True
-
-##############################################################
-
-
 class UserCreate(BaseModel):
     email: EmailStr
     password: str
@@ -51,6 +29,27 @@ class UserLogin(BaseModel):
 
 ##############################################################
 
+class PostBase(BaseModel):
+    title: str
+    content: str
+    published: bool = True
+
+
+class PostCreate(PostBase):
+    pass
+
+
+# response pydantic model for post
+class Post(PostBase):
+    id: int
+    created_at: datetime
+    user_id: int
+    owner: UserOut
+
+    class Config:
+        orm_mode = True
+
+##############################################################
 
 class Token(BaseModel):
     access_token: str

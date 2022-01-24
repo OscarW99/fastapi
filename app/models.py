@@ -1,9 +1,10 @@
 # every model represents a table in our database
 # Here we can create new tables
 
-from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.sqltypes import TIMESTAMP, Time
+from sqlalchemy.orm import relationship
 from .database import Base
 
 
@@ -16,6 +17,9 @@ class Post(Base):
     published = Column(Boolean, server_default='True', nullable=False)
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text('now()'))
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    # cascade means when a parent object is deleted (eg user), all the children of that object are deleted (eg posts of that user)
+    owner = relationship("User")
 
 
 class User(Base):
@@ -25,3 +29,10 @@ class User(Base):
     password = Column(String, nullable=False)
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text('now()'))
+
+
+
+
+
+# if we add new columns to our tables here, it will not automatically update the pgadmin tables. To update tables with new columns, you must first delete the table in pgadmin.
+# ... this can be solved with a database migration tool such as alembic (will cover later). 
