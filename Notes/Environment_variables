@@ -1,0 +1,18 @@
+Environment variables mean we don't have to hard-code sensitive information into our project files. (eg database login/password, secret key for JWT tokens).
+
+Its basically a variable that is gloabl to your whole computer, not even specific to an applicaiton/ programming language.
+
+To change this in windows...
+go to: 'Edit the system and environment variables' --> Environmnt Variables... --> path [add a new variable with 'new']
+
+- I may have to chnage system variables instaed of user variables as I am not the administrative user of this laptop.
+  --- on windows cmd type 'echo %Path%' to view path (can swap path for any other environment variable)
+  --- you can use os.getenv('variable_name') in python to retrieve an environment variable (eg path)
+
+In reality if we have many environment variables we want to add it will be very tedious to maually add them all with the method above. Insted we can create an environment file. We created a file called .env in our base directory (FASTAPI). We wouldn't use this in production, We would set environment variables on out machine in production.
+
+We want to validate our environment variables as forgeting any/ them being in the wrong data type could cause our application to crash.
+We can use pydantic model for all this validation. (see config.py)
+
+We create a .gitignore file to say what files we dont want displayed in github.
+... Just add file names to this file - definatively add .env and \_pyache_f
