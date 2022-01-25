@@ -1,0 +1,7 @@
+A query parameter is an argument which allows customisation of database querys. You will see theese in the URL of most websites, it is the text after the main website link. They allow for filtering/ ease of access to data.
+To allow query parameters, you can add arguments into the path operation functions. These will often have default valuess.
+To set a query parameter, after the normal URL, you put a question mark followed by the parameter name and its value...
+e.g. URL?var=4
+to provide multiple query parameters, you use the & sign followed by the next key value pair.... 
+e.g. URL?var=4&skip=2&search=hello%20world
+... Notice %20 is used to represent spaces in the search parameter

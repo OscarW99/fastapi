@@ -19,7 +19,7 @@ class Post(Base):
                         nullable=False, server_default=text('now()'))
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     # cascade means when a parent object is deleted (eg user), all the children of that object are deleted (eg posts of that user)
-    owner = relationship("User")
+    owner = relationship("User") # I assume this relationship function requires there to be a foreign key linked to the users table
 
 
 class User(Base):
