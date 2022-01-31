@@ -33,6 +33,12 @@ class User(Base):
 
 
 
+class Vote(Base):
+    __tablename__ = "votes"
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
+    post_id = Column(Integer, ForeignKey("posts.id", ondelete="CASCADE"), primary_key=True)
+
+
 
 # if we add new columns to our tables here, it will not automatically update the pgadmin tables. To update tables with new columns, you must first delete the table in pgadmin.
 # ... this can be solved with a database migration tool such as alembic (will cover later). 
