@@ -108,7 +108,7 @@ UPDATE products SET is_sale = true WHERE id > 15 RETURNING *;
 -- We need a postgres driver to use a postgres databse within python. We use Psycopg for this. (sqla;chemy uses psycopg)
 
 
--- ## SQL JOINS ## (go to postgresqltutorial.com)
+--! ## SQL JOINS ## (go to postgresqltutorial.com)
 SELECT * FROM posts LEFT JOIN users ON posts.user_id = users.id;
 --  This will jon tables posts and users. You can select columns from this join to return.. 
 -- e.g.
@@ -118,8 +118,8 @@ SELECT posts.id, email FROM posts LEFT JOIN users ON posts.user_id = users.id;
 -- worth putting the table in front of variables anyway for clarity
 SELECT posts.*, email FROM posts LEFT JOIN users ON posts.user_id = users.id;
 
---  A LEFT join will show you things that exist in the left table and not necessarily the right, and the RIGHTA join will do the opposite.
+--  A LEFT join will show you all things that exist in the left table and not necessarily the right, and the RIGHT join will do the opposite.
 
 SELECT users.id, COUNT(*) FROM posts LEFT JOIN users ON posts.user_id = users.id group by users.id;
--- postgres has a builting COUNT() function to count a number of occurences. If you specify a column in COUNT() it will not count null values
-SELECT users.id, users.email, COUNT(posts.id) as user_post_count from posts RIGHT JOIN users ON posts.user_id = users.id GROUP BY users.id;
+-- postgres has a builting COUNT() function to count a number of occurences. If you specify a column in COUNT() it will not count null values..
+SELECT users.id, users.email, COUNT(posts.id) AS user_post_count FROM posts RIGHT JOIN users ON posts.user_id = users.id GROUP BY users.id;
