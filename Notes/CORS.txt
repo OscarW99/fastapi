@@ -1,0 +1,3 @@
+CORS stands for cross-origin resouce sharing
+This will allow applications running on different servers to the server out API is running on to make requests to our API.
+fastapi provides a simple way of setting this up.

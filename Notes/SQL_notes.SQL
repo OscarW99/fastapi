@@ -123,3 +123,5 @@ SELECT posts.*, email FROM posts LEFT JOIN users ON posts.user_id = users.id;
 SELECT users.id, COUNT(*) FROM posts LEFT JOIN users ON posts.user_id = users.id group by users.id;
 -- postgres has a builting COUNT() function to count a number of occurences. If you specify a column in COUNT() it will not count null values..
 SELECT users.id, users.email, COUNT(posts.id) AS user_post_count FROM posts RIGHT JOIN users ON posts.user_id = users.id GROUP BY users.id;
+-- The join we want to have in our get post(s) functions...
+select posts.id, COUNT(votes.post_id) from posts LEFT JOIN votes ON posts.id = votes.post_id GROUP BY posts.id;
