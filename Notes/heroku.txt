@@ -1,0 +1,5 @@
+# Heroku tutorial: https://devcenter.heroku.com/articles/getting-started-with-python#deploy-the-app
+
+heroku login
+# the app name must be golbally unique
+heruko create 'name_of_app'  
