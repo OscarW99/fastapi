@@ -9,3 +9,8 @@ heruko create 'name_of_app'
 #.. Ok so the tutorial works fine which is strange... I'll keep probing.
 
 use 'heroku buildpacks' to check buildpacks
+
+
+HAHAHAHAHAHAHA - ok so after 2 days stuck on this I realised I misspelt requirements.txt. Its now working. Oh well, this happens sometimes.
+
+You only get a certain number of build on the heroku free tier. You can reset this using 'heroku restart'.
