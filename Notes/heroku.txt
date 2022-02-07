@@ -7,3 +7,5 @@ heruko create 'name_of_app'
 # I've been struggling with Heroku the last couple days. I think it could be somthing to do with system administrator privalleges. I will try to run the heroku tutorial online and if that doesn't work I will ask for help online.
 
 #.. Ok so the tutorial works fine which is strange... I'll keep probing.
+
+use 'heroku buildpacks' to check buildpacks
