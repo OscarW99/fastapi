@@ -10,10 +10,25 @@ heruko create 'name_of_app'
 
 use 'heroku buildpacks' to check buildpacks
 
+use 'heroku logs' to troubleshoot problems
+
 
 HAHAHAHAHAHAHA - ok so after 2 days stuck on this I realised I misspelt requirements.txt. Its now working. Oh well, this happens sometimes.
 
 You only get a certain number of builds on the heroku free tier. You can reset this using 'heroku restart'.
 
-
 We need to tell heroku to run the uvicorn app.main:app command so it knows how to run our app. We do this in a Procfile
+
+As we do not check our .env file into git (we hide it in .gitignore), heroku runs into a problem with the config.py file and defining these variables.
+
+heroku gives access to a free postgres instance. We create a database with the following command...
+heroku addons:create heroku-postgresql:hobby-dev
+... look in: settings -> database credentials to see what the environment variable replacements are. 
+
+... copy these into 'config vars' in the settings of app (on heroku platform)
+then restart the app with 'heroku ps:restart'
+
+'heroku apps:info fastapi-oscar' will remind me of the apps URL
+
+# todo
+As heroku has created a fresh posgres instance we nee to run one command to create our database...
