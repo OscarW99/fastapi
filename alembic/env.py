@@ -4,13 +4,15 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
-from app.models import Base # we import from models instead of database so alembic can read the classes that inherit from Base in the models.py file
+# we import from models instead of database so alembic can read the classes that inherit from Base in the models.py file
+from app.models import Base
 from app.config import settings
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-config.set_main_option("sqlalchemy.url",  f"postgresql+psycopg2://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}")
+config.set_main_option(
+    "sqlalchemy.url",  f"postgresql+psycopg2://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}")
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -21,6 +23,7 @@ fileConfig(config.config_file_name)
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 target_metadata = Base.metadata
+# * It is this line that allows alembic to create the database tables for us. The Base class is coming from the models.py file which contains our sqlalchemy table schemas
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

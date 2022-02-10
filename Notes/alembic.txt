@@ -27,7 +27,7 @@ python -m alembic downgrade -2
 # We can use models defined in models.py to generate/update columns automatically...
 python -m alembic revision --autogenerate -m "autogenerate all things remaining"
 # ... this is brilliant as it automatically populates the upgrade and downgrade functions.
-
+## REMEMBER AFTER ADDING A NEW ALEMBIC REVISION WE NEED TO RUN THE 'UPGRADE' COMMAND
 
 Never run 'alembic revision' on production server - only on development server when stageing changes.
 To push out these changes to production server, we first push code to git, then do 'alembic upgrade head' (via heroku commandline).
