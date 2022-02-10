@@ -30,5 +30,10 @@ then restart the app with 'heroku ps:restart'
 
 'heroku apps:info fastapi-oscar' will remind me of the apps URL
 
-# todo
+
 As heroku has created a fresh posgres instance we nee to run one command to create our database...
+
+
+
+use 'heroku run alembic upgrade head' to update heroku when we change our database.
+use 'git push heroku main' to push changes to production environmnt (after commiting to github)

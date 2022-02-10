@@ -17,9 +17,11 @@ class Post(Base):
     published = Column(Boolean, server_default='True', nullable=False)
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text('now()'))
-    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    user_id = Column(Integer, ForeignKey(
+        "users.id", ondelete="CASCADE"), nullable=False)
     # cascade means when a parent object is deleted (eg user), all the children of that object are deleted (eg posts of that user)
-    owner = relationship("User") # I assume this relationship function requires there to be a foreign key linked to the users table
+    # I assume this relationship function requires there to be a foreign key linked to the users table
+    owner = relationship("User")
 
 
 class User(Base):
@@ -31,14 +33,13 @@ class User(Base):
                         nullable=False, server_default=text('now()'))
 
 
-
-
 class Vote(Base):
     __tablename__ = "votes"
-    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
-    post_id = Column(Integer, ForeignKey("posts.id", ondelete="CASCADE"), primary_key=True)
-
+    user_id = Column(Integer, ForeignKey(
+        "users.id", ondelete="CASCADE"), primary_key=True)
+    post_id = Column(Integer, ForeignKey(
+        "posts.id", ondelete="CASCADE"), primary_key=True)
 
 
 # if we add new columns to our tables here, it will not automatically update the pgadmin tables. To update tables with new columns, you must first delete the table in pgadmin.
-# ... this can be solved with a database migration tool such as alembic (will cover later). 
+# ... this can be solved with a database migration tool such as alembic (will cover later).

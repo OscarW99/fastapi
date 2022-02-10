@@ -8,7 +8,7 @@ from .config import settings
 #! python -m uvicorn app.main:app --reload
 
 # create the database if it doesn't already exist
-# models.Base.metadata.create_all(bind=engine) # no longer needed with alembic
+models.Base.metadata.create_all(bind=engine)  # no longer needed with alembic
 
 # initiate api
 app = FastAPI()
