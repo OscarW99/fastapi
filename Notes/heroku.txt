@@ -21,7 +21,7 @@ We need to tell heroku to run the uvicorn app.main:app command so it knows how t
 
 As we do not check our .env file into git (we hide it in .gitignore), heroku runs into a problem with the config.py file and defining these variables.
 
-heroku gives access to one free database within one postgres instance. We create a database with the following command...
+heroku gives access to one free database within one postgres instance. We create a database with the following command... (hobby-dev is the free tier)
 heroku addons:create heroku-postgresql:hobby-dev
 ... look in: settings -> database credentials to see what the environment variable replacements are. 
 
@@ -31,9 +31,8 @@ then restart the app with 'heroku ps:restart'
 'heroku apps:info fastapi-oscar' will remind me of the apps URL
 
 
-As heroku has created a fresh posgres instance we nee to run one command to create our database...
-
-
-
 use 'heroku run alembic upgrade head' to update heroku when we change our database.
 use 'git push heroku main' to push changes to production environmnt (after commiting to github)
+
+
+I think the reason I cannot make posts once published on heroku is because my environment varibales are still coming from my .env file. Ill just ignore this for now.
