@@ -20,7 +20,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"], # (this is where you set what request types the user is allowed to make (eg POST, GET, DELETE, ect))
+    # (this is where you set what request types the user is allowed to make (eg POST, GET, DELETE, ect))
+    allow_methods=["*"],
     allow_headers=["*"]
 )
 
@@ -31,6 +32,8 @@ app.include_router(vote.router)
 
 ###############################
 # * HOME PAGE
+
+
 @app.get("/")
 def root():
-    return {"message": "My first API"}
+    return {"message": "My first API!!!!!!!"}

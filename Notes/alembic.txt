@@ -1,4 +1,4 @@
-Alembic works a bit like git in the sense you can track changes ans revert back to previous states.
+Alembic works a bit like git in the sense you can track changes and revert back to previous states of a database.
 The versions folder in the alembic folder will contain all of these.
 revision tracks the changes that we make (-m command is where you write commit messgae)
 [ because im not using a virtual env, i need to write an extra 'python -m' in front of every command ]
@@ -16,7 +16,7 @@ python -m alembic heads
 
 #* upgrade to revision
 python -m alembic upgrade 2218f62f08f1
-...can also set head instead of ID here as head is th ecurrent version
+...can also set head instead of ID here as head is the ecurrent version
 
 #* downgrade to revision
 python -m alembic downgrade 2218f62f08f1
@@ -27,3 +27,8 @@ python -m alembic downgrade -2
 # We can use models defined in models.py to generate/update columns automatically...
 python -m alembic revision --autogenerate -m ""
 # ... this is brilliant as it automatically populates the upgrade and downgrade functions.
+
+
+Never run 'alembic revision' on production server - only on development server when stageing changes.
+To push out these changes to production server, we first push code to git, then do 'alembic upgrade head' (via heroku commandline).
+... This is because git stores all alembic revisions and heroku is connected to git.

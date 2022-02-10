@@ -21,7 +21,7 @@ We need to tell heroku to run the uvicorn app.main:app command so it knows how t
 
 As we do not check our .env file into git (we hide it in .gitignore), heroku runs into a problem with the config.py file and defining these variables.
 
-heroku gives access to a free postgres instance. We create a database with the following command...
+heroku gives access to one free database within one postgres instance. We create a database with the following command...
 heroku addons:create heroku-postgresql:hobby-dev
 ... look in: settings -> database credentials to see what the environment variable replacements are. 
 
