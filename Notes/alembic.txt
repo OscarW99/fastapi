@@ -25,7 +25,7 @@ python -m alembic downgrade 2218f62f08f1
 python -m alembic downgrade -2
 
 # We can use models defined in models.py to generate/update columns automatically...
-python -m alembic revision --autogenerate -m ""
+python -m alembic revision --autogenerate -m "autogenerate all things remaining"
 # ... this is brilliant as it automatically populates the upgrade and downgrade functions.
 
 
