@@ -1,0 +1,51 @@
+DigitalOcean is an infastructure as a service provider. It provides a cloud environment where you can host you website and database and also manages user traffic. They charge a monthly fee.
+Like we would do on our own laptop, we can install software onto the server as we are the root user (owner).
+
+# ssh into ubuntu server using same method as broad.
+# make sure ubuntu is up to date....
+sudo apt update && sudo apt upgrade -y
+
+# install extra packages we require -> e.g. pip...
+sudo apt install python3-pip
+
+# we now use pip to install virtual env
+sudo pip3 install virtualenv
+
+# install database stuff
+sudo apt install postgresql postgresql-contrib -y
+
+# Next connect to database from ubuntu VM
+# We use postgres CLI called psql which we installed with the above command 
+#|v| use postgres as username as this is the auto installed postgres user (and database) -> but we are currently root so we need to change the the postgres user that was auto installed with postgres.
+psql --version
+psql --help
+sudo cat /etc/passwd # check available users
+su - postgres # change to postgres user
+psql -U postgres # login to database
+
+# WHEN IN DATABASE
+# create new password for user
+\password postgres
+# exit out of postgres
+\q
+
+
+# Go back to root user
+exit
+
+# to modify postgres configs (configs will normally be in etc directory in root)
+cd /etc/postgresql/12/main
+sudo nano postgresql.conf
+# note local host on this ubuntu server is not the same as localhost on my laptop. The VM has a seperate localhost.
+# go to 'CONECTIONS AND AUTHENTICATIONS' --> 'listen_addresses' --> edit to allow all IP addresses to connect...
+listen_addresses = '*'
+# Its best practice to narrow down the IPaddreses' and domains that can access your database fo security reasons.
+# now change PostgreSQL Client Authentication Configuration File
+# We want to change peer authentication to password authentication ('md5'), also dtabase access and IPs able to acceess through 1Pv4 and IPv6
+sudo nano pg_hba.conf #(see Ubuntu_client_auth_config_file.PNG for edits)
+# restart application for changes to take affect.
+systemctl restart postgresql
+
+##
+psql -U postgres # login to database, Dont have to switch users anymore as I have changed settings.
+\q
