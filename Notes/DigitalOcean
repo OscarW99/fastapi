@@ -133,5 +133,20 @@ cd ~/app/src
 alembic upgrade head
 # we can still roll back to previous versions as all our revisions are saved.
 
-# Now we can run our app (dont include reload commad)(we need to include host parameter so that we can listen on any IP that the machine is running).
+# Now we can run our app (dont include reload commad)(we need to include host parameter so that we can listen on any IP including from our loacl laptop.).
 uvicorn --host 0.0.0.0 app.main:app
+
+# Note: you only need to clone a repository once, after that you can use 'git pull' to get any updates.
+# Ok some slight confusion with connecting to the server from my webbrowser. What did it in the end was to go to the url... 'http://143.244.157.61:8000/'
+# ... This is the IP address of my server folowed by :8000
+
+# If our server crahes or we reboot, our app will not automatically restart - we dont want this.
+# We can use a process manager called gunicorn to solve this problem
+pip install gunicorn #do this inside venv
+pip install httptools
+pip install uvloop
+# Im actually going to now manually update requirements.txt so that these packages are installed for future. I'll use pip freeze and paste this into requirements.txt in the dev environment.
+
+# We can set the number of workers for gunicorn. This is the number of cpus listening for requests. If we set multiple workers then a load balancer will be implemented to share traffic accross all of them.
+# We can check the number of cpus with the 'lscpu' command. I have 4.
+gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app --bind 0.0.0.0:8000
