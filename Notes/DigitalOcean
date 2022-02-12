@@ -1,7 +1,8 @@
 DigitalOcean is an infastructure as a service provider. It provides a cloud environment where you can host you website and database and also manages user traffic. They charge a monthly fee.
 Like we would do on our own laptop, we can install software onto the server as we are the root user (owner).
-
+## TO login to digital ocean, need to login with google on broad chrome broser.
 # ssh into ubuntu server using same method as broad.
+ssh root@143.244.157.61
 # make sure ubuntu is up to date....
 sudo apt update && sudo apt upgrade -y
 
@@ -49,3 +50,34 @@ systemctl restart postgresql
 ##
 psql -U postgres # login to database, Dont have to switch users anymore as I have changed settings.
 \q
+
+##############################################
+# You generally dont want to be root user for security reasons. Ie is you start you apllication with rrot user, you are giving the application root access to your machine which is risky.
+# We will create a non-root user with root privellages.
+adduser owright
+su - owright
+
+# You can actually login straight to the new user now...
+ssh owright@143.244.157.61
+
+# user by default doesn't have root (sudo) privallages.
+# we log back in as root user then give our new user these privaleges.
+exit
+ssh root@143.244.157.61
+usermod -aG sudo owright
+
+# our homme directory is 'usermod -aG sudo owright'. This is where we will put our app directory.
+cd ~
+mkdir app
+cd app
+
+# We create a virtual environment inside our app folder....
+#... It makes sense we do this, just like we would do on our own laptop. We want a different virtual_env for each app as each will require different dependencies and have different software versions for each.
+virtualenv venv
+# activate venv
+source venv/bin/activate # use 'deactivate' to get out of venv
+
+# now create source folder to store our app code
+mkdir src
+cd src
+# we will copy all of our code into src from github
