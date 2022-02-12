@@ -1,6 +1,7 @@
 DigitalOcean is an infastructure as a service provider. It provides a cloud environment where you can host you website and database and also manages user traffic. They charge a monthly fee.
 Like we would do on our own laptop, we can install software onto the server as we are the root user (owner).
-## TO login to digital ocean, need to login with google on broad chrome broser.
+
+## To login to digital ocean, need to login with google on broad chrome browser.
 # ssh into ubuntu server using same method as broad.
 ssh root@143.244.157.61
 # make sure ubuntu is up to date....
@@ -12,7 +13,7 @@ sudo apt install python3-pip
 # we now use pip to install virtual env
 sudo pip3 install virtualenv
 
-# install database stuff
+# install database stuff (using default port)
 sudo apt install postgresql postgresql-contrib -y
 
 # Next connect to database from ubuntu VM
@@ -80,4 +81,54 @@ source venv/bin/activate # use 'deactivate' to get out of venv
 # now create source folder to store our app code
 mkdir src
 cd src
-# we will copy all of our code into src from github
+# We will copy all of our code into src from github.. (Note the respoitory has to be public for this to work...Im sure theres a way around this though as surley you dont want to make you app source code public.)
+git clone https://github.com/OscarW99/fastapi.git . 
+#(The space and dot at the end will paste contents of fastapi directory into the current directory instead of adding the fastapi folder inside the current folder)(because there basically no need to have a folder inside another folder).
+
+# Install all requiremnets...
+pip install -r requirements.txt
+# ran into error installing psycopg2
+# exiting venv and instally required software
+deactivate
+sudo apt install libpq-dev
+# I may come into problems like this in the future related to other dependencies. I just need to find the specific solution.
+
+source ../venv/bin/activate
+pip install -r requirements.txt
+
+#! skip to next red (v = demonstration of trial + error)
+# Next we are going to set up our environment varibales before running our app
+# to create environmrnt variable on linux machine...
+export VAR_NAME=name # example only
+printenv # this will print all environment variables
+unset VAR_NAME # this will remove the environment variable
+
+# We will create a file of environment variables so we dont have to add them one by one.
+cd ~
+touch .env #create file
+nano .env #add vars to file (use same format (export VAR_NAME=name))
+source .env # This will run the .env file as if it were a set of commands.(Useful to know actually)
+# Note: It is important the .env file is not in our app folder so theres no risk of it being published to github.
+#-------vvvvvvvvvvvvvvvvvvvvvvvvvv--------#
+# Actully there is a simpler way. We can copy and paste our env variables from our development environment into the .env file and then run one command from the CLI to add them all as environment variables.
+# Remember environemnt variables are in the format... DATABASE_PORT=1234
+set -o allexport; source ~/.env; set +o allexport
+sudo reboot # reboot VM.
+# We see that environment variables are not kept after reeboot, so we need to do somthing about this.
+#!
+# There is a simple fix.
+# the hidden '.profile' file in the home direcotry is a file thats run every time automatically upon login. We can paste the command to set environment variables in to the bottom of this file...
+cd ~
+nano .profile
+set -o allexport; source ~/.env; set +o allexport # add this to bottom of file
+# Note: there are 100 ways to set environment variables, this is just one.
+
+# Now go into postgres and create fastapi database inside fastapi_prod server
+# now edit .env file variables so they match production env variables instaed of development env varibales.
+#.. we still use localhost because the ubuntu machine is the localhost of the server.
+
+# Now to actually create tables in fastapi database in fastapi-prod server...
+# go into alembic folder and run alembic command. #REMEMBER..  never run alembic revisions on production server.
+cd ~/app/src
+alembic upgrade head
+# we can still roll back to previous versions as all our revisions are saved.
