@@ -132,3 +132,6 @@ set -o allexport; source ~/.env; set +o allexport # add this to bottom of file
 cd ~/app/src
 alembic upgrade head
 # we can still roll back to previous versions as all our revisions are saved.
+
+# Now we can run our app (dont include reload commad)(we need to include host parameter so that we can listen on any IP that the machine is running).
+uvicorn --host 0.0.0.0 app.main:app
