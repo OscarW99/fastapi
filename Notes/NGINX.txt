@@ -1,0 +1,18 @@
+# see NGINX.PNG
+
+This is a middle man to relay requests between the end user and gunicorn. Its actually a high performance web server hosted on the Ubuntu VM.
+The reason for using this is that it can handle SSL termination. 
+Our API is designed to handle HTTP requests, not HTTPS requests. The NGINX server can convert the HTTPS request into a HTTP packet for our API (This imporves performacnce of our API). This saves us having to code HTTPS handling ourselves.
+
+{
+    "SSL termination refers to the process of decrypting encrypted traffic before passing it along to a web server." NGINX does this.
+}
+{
+    "In a Nutshell. HTTPS is HTTP with encryption. The difference between the two protocols is that HTTPS uses TLS (SSL) to encrypt normal HTTP requests and responses. As a result, HTTPS is far more secure than HTTP"
+}
+
+--------------------------------------
+sudo apt install nginx -y
+systemctl start nginx
+
+cd /etc/nginx/sites-available

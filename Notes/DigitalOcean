@@ -2,7 +2,7 @@ DigitalOcean is an infastructure as a service provider. It provides a cloud envi
 Like we would do on our own laptop, we can install software onto the server as we are the root user (owner).
 ##
 ssh owright@143.244.157.61
-source app/venv/bin/activate
+source ~/app/venv/bin/activate
 http://143.244.157.61:8000/
 ##
 ## To login to digital ocean, need to login with google on broad chrome browser.
@@ -169,7 +169,8 @@ systemctl status api
 systemctl restart api
 
 #!!
-You fing kidding me.
-https://stackoverflow.com/questions/7695962/password-authentication-failed-for-user-postgres/7696398#7696398
-local all postgres ident
+# https://askubuntu.com/questions/413585/postgres-password-authentication-fails
+# Ok so the answer was that i was locking myself out of the database by thorugh some password problemm. I think its because I stopped half way through this section.
 #!!
+
+# systemctl restart postgresql
