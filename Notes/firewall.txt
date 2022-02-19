@@ -1,0 +1,23 @@
+
+Firewalls carefully analyze incoming traffic based on pre-established rules and filter traffic coming from unsecured or suspicious sources to prevent attacks. Firewalls guard traffic at a computer’s entry point, called ports, which is where information is exchanged with external devices. For example, “Source address 172.18.1.1 is allowed to reach destination 172.18.2.1 over port 22."
+
+Think of IP addresses as houses, and port numbers as rooms within the house. Only trusted people (source addresses) are allowed to enter the house (destination address) at all—then it’s further filtered so that people within the house are only allowed to access certain rooms (destination ports), depending on if they're the owner, a child, or a guest. The owner is allowed to any room (any port), while children and guests are allowed into a certain set of rooms (specific ports).
+Firewalls can be staeless or statful. Stateful is more secure.
+
+
+Ubuntu has a builtin fire wall...
+sudo ufw status
+
+# We need to set rules for what port to allow traffic on & what IP addresses we can talk to. We want to limit our ports for security reasons.
+# Because it is a public api we want to allow http & https % obviously shh access.
+sudo ufw allow http
+sudo ufw allow https
+sudo ufw allow ssh
+sudo ufw allow 5432 ...this one is a bit risky as it gives people access to your database port - however you will need to allow this if you want to access your database remotely.
+
+# start firewall...
+sudo ufw enable
+sudo ufw status
+
+# if you wanted to remove a access for a connection type...
+# sudo ufw delete allow https

@@ -16,3 +16,15 @@ sudo apt install nginx -y
 systemctl start nginx
 
 cd /etc/nginx/sites-available
+
+
+####
+Got the domain name oscarwright.xyz and linked it to my digitalOcean droplet.
+####
+
+... Now I need to get my app to handle SSL traffic. This is what gives the lock symbol in the browser and makes sure its secure. We use certbot to configure NGINX for us...
+follow these instructions: https://certbot.eff.org/instructions?ws=nginx&os=ubuntufocal
+
+finish going through certbot instructions
+add both oscarwright.xyz & www.oscarwright.xyz
+check nginx is set to restar ton reboot : systemctl status nginx
