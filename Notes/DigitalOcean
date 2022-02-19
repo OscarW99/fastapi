@@ -117,7 +117,7 @@ source .env # This will run the .env file as if it were a set of commands.(Usefu
 # Actully there is a simpler way. We can copy and paste our env variables from our development environment into the .env file and then run one command from the CLI to add them all as environment variables.
 # Remember environemnt variables are in the format... DATABASE_PORT=1234
 set -o allexport; source ~/.env; set +o allexport
-sudo reboot # reboot VM.
+sudo reboot # reboot VM (will take a minute)
 # We see that environment variables are not kept after reeboot, so we need to do somthing about this.
 #!
 # There is a simple fix.
@@ -174,3 +174,29 @@ systemctl restart api
 #!!
 
 # systemctl restart postgresql
+
+
+
+######
+# To make changes to our app
+# first commit changes to git
+cd ~/app/src
+git pull
+# If you change requirements.txt, youll need to re-run pip install -r requirements.txt
+sudo systemctl restart api
+# changes could take a minute to show
+# whenever I restart the application there is a problem with database access.
+#*#####
+cd /etc/postgresql/12/main
+sudo nano pg_hba.conf
+# change md5 to peer on top line
+systemctl restart postgresql
+sudo -u postgres psql
+ALTER USER postgres PASSWORD 'postgres';
+\q
+cd /etc/postgresql/12/main
+# change peer to md5 on top line
+sudo nano pg_hba.conf
+systemctl restart postgresql
+
+13:26
