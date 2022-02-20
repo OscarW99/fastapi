@@ -12,4 +12,4 @@ services:
 
 # docker-compose up -d
 # docker ps -a # ...see if it crashed
-# docker logs src_api_1
+# docker logs fastapi-api-1
