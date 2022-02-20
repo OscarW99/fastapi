@@ -7,7 +7,7 @@ services:
   # The outside world need to be able to speak to our container, so we need to open up a port
     ports:
       #- <port on localhost(any open port)>:<port on container(same as in Dockerfile)>
-      - 8000:8000
+      - 5432:8000
 
 
 # docker-compose up -d

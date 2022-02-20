@@ -199,4 +199,3 @@ cd /etc/postgresql/12/main
 sudo nano pg_hba.conf
 systemctl restart postgresql
 
-13:26
