@@ -8,7 +8,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # This will copy all files (source code) in our current directoy to the workdir in our container
 COPY . .
 
-CMD ["python -m uvicorn", "app.main:app", "--host:", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 # https://hub.docker.com/_/python
 
 
