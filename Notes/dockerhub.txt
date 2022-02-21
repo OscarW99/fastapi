@@ -1,0 +1,10 @@
+Dockerhub is for Docker what GitHub is to Git. We can track chnages in our images.
+
+# login to docker
+docker login
+
+# rename image to comply with dockerhub naming convention
+docker image tag fastapi_api oscarw99/fastapi
+
+# use docker push to push image to docker hub... (default tag is latest)
+docker push oscarw99/fastapi
