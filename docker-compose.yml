@@ -9,7 +9,7 @@ services:
       #- <port on localhost(any open port)>:<port on container(same as in Dockerfile)>
       - 80:80
     environment:
-      - DATABASE_HOSTNAME=localhost
+      - DATABASE_HOSTNAME=143.244.157.61
       - DATABASE_PASSWORD=postgres
       - DATABASE_PORT=5432
       - DATABASE_NAME=fastapi
