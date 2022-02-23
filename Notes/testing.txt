@@ -1,0 +1,12 @@
+- We use the assert command for testing.
+- Testing file must be named *_test or test_* to be auto found.
+- Testing (assert) functions must be named test*
+- We import functions from other files in our app folder to a testing file in the testing folder and write assert functions in the testing file that call those functions with expected answers.
+
+# To run pytest
+pytest
+pytest -v
+
+# To run pytest with print statements
+pytest -v -s
+
