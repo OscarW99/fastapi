@@ -9,4 +9,22 @@ pytest -v
 
 # To run pytest with print statements
 pytest -v -s
+pytest -v -s folder/specific_test_file.py
 
+# To remove warnings
+pytest --disable-warnings -v
+
+# To get pytest to stop at the first error (can be useful in bigger projects when testing takes a long time).
+pytest -x
+pytest -v -x
+
+- A fixture is a function that gets run before the tests and can be used to create a class instance that will be used in multiple tests. To use it in a test, include it as a parameter in the test function.
+- You can use both fixtures and parameterize decorators togther on a test function.
+
+You create seperate test functions to test for exceptions - where you expect errors to occur.
+
+'In Python we usually write our own exception classes' - Didn't know this...Need to look into this as a seperate topic
+
+
+Fastapi provides its own test client - a subpackage that makes testing easy
+This test client is basically a requests object (from python requests library). It just automating the sending of requests that we would do in thunderclient.

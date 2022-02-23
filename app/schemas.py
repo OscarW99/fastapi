@@ -7,6 +7,7 @@ from pydantic import BaseModel, EmailStr, conint
 
 #############################################################
 
+
 class UserCreate(BaseModel):
     email: EmailStr
     password: str
@@ -29,6 +30,7 @@ class UserLogin(BaseModel):
 
 ##############################################################
 
+
 class PostBase(BaseModel):
     title: str
     content: str
@@ -49,6 +51,7 @@ class Post(PostBase):
     class Config:
         orm_mode = True
 
+
 class PostOut(BaseModel):
     Post: Post
     votes: int
@@ -65,6 +68,7 @@ class TokenData(BaseModel):
     id: Optional[str] = None
 
 ##############################################################
+
 
 class Vote(BaseModel):
     post_id: int

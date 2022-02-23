@@ -1,4 +1,10 @@
 import pytest
+from . import func
+
+
+@pytest.fixture
+def some_descriptive_thing():
+    return class_instance(x)
 
 
 @pytest.mark.parametrize("val1, val2, ans", [
