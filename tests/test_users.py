@@ -1,17 +1,17 @@
-from fastapi.testclient import TestClient
-from app.main import app
 from app import schemas
+from .database import client, session
 
-client = TestClient(app)
+
+#################
 
 
-def test_root():
+def test_root(client):
     res = client.get("/")
     assert res.json().get('message') == 'Hello World!'
 
 
 # need to send data in the body for post requests
-def test_create_user():
+def test_create_user(client):
     res = client.post(
         '/users/', json={'email': 'gfroggy@gmail.com', 'password': 'eyo'})
     # can use schema model to do some of the validation for us (ie expected output fields/ format)

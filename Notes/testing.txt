@@ -28,3 +28,6 @@ You create seperate test functions to test for exceptions - where you expect err
 
 Fastapi provides its own test client - a subpackage that makes testing easy
 This test client is basically a requests object (from python requests library). It just automating the sending of requests that we would do in thunderclient.
+
+We use a test database to avoid mixing our production data and testing data.
+My test database is currently on my local machine. I can have my test database in a docker env or on a remote machine, it doesn't matter. I just need to set the database address to account for this.
