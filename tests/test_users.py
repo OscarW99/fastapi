@@ -18,3 +18,10 @@ def test_create_user(client):
     new_user = schemas.UserOut(**res.json())
     assert new_user.email == 'gfroggy@gmail.com'
     assert res.status_code == 201
+
+
+def test_login_user(client):
+    res = client.post(
+        '/login', data={'username': 'gfroggy@gmail.com', 'password': 'eyo'})
+
+    assert res.status_code == 200

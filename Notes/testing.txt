@@ -31,3 +31,5 @@ This test client is basically a requests object (from python requests library). 
 
 We use a test database to avoid mixing our production data and testing data.
 My test database is currently on my local machine. I can have my test database in a docker env or on a remote machine, it doesn't matter. I just need to set the database address to account for this.
+
+Tests should be independant from each other. You should not have a test that relys on another test to run as this can cause confusion to where an error is coming from. An example of where we may need this is when we need to test the login function but we need to run create_user before this.
