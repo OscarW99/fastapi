@@ -33,3 +33,8 @@ We use a test database to avoid mixing our production data and testing data.
 My test database is currently on my local machine. I can have my test database in a docker env or on a remote machine, it doesn't matter. I just need to set the database address to account for this.
 
 Tests should be independant from each other. You should not have a test that relys on another test to run as this can cause confusion to where an error is coming from. An example of where we may need this is when we need to test the login function but we need to run create_user before this.
+To combat this problem, we can create a fixture that will create the user for us. A fixture can actually have assert statements itself.
+A fixture is basically just a dependency to run a test.
+
+conftest.py is a special pytest file that can hold all of the fixtures that will be used by multiple test files. We put our database fixtures in here. By using conftest, we don't need to import our fixtures into the test files. This will be done automatically.
+You can have multiple conftest.py files (e.g. in testing subdirectories) only the testing files in the directory (or subdirectories) of a specific conftest.py file will be able to access its fixtures. So no conftest.py file can act in test directories above itself.
