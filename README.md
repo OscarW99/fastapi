@@ -11,3 +11,6 @@ Topics covered:
 - Pydantic/psycopg ORM model
 - Deploying API to Heroku
 - Deploying API on Ubuntu server with DigitalOcean
+- Docker
+- Testing with pytest
+- CI/CD
