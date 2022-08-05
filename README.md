@@ -1,4 +1,4 @@
-Building the backend of a prototype social media application with FastAPI & postgresql.
+### Backend of a prototype social media application with FastAPI & postgresql.
 
 Tools/concepts used:
 - APIs & CRUD operations
